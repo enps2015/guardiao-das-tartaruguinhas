@@ -1,0 +1,12 @@
+regiao,quantidade_ovos,status,risco,dias_para_eclosao,predadores,causa_risco
+Praia Norte,102,intacto,🟢,12,False,nenhuma
+Praia Central,89,danificado,🔴,3,True,predador
+Praia Sul,120,ameaçado,🟡,7,False,alagamento
+Praia Central,75,intacto,🟢,2,False,nenhuma
+Praia Norte,60,danificado,🔴,5,True,predador
+Praia Sul,95,intacto,🟢,20,False,nenhuma
+Praia Norte,110,ameaçado,🟡,8,True,predador
+Praia Central,81,ameaçado,🟡,15,False,humano
+Praia Sul,70,danificado,🔴,1,True,predador
+Praia Norte,130,intacto,🟢,25,False,nenhumas
+praia central,100,intacto,🔴,2,True,alagamento
