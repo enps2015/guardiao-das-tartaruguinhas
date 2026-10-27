@@ -8,7 +8,7 @@ from __future__ import annotations
 import os
 import tempfile
 from pathlib import Path
-from typing import Any, Dict, Optional
+from typing import Any, Dict, Optional, Union
 
 import pandas as pd
 
@@ -61,7 +61,7 @@ def summarize_risk_data(df: Optional[pd.DataFrame]) -> Dict[str, Any]:
     }
 
 
-def save_csv_atomically(df: pd.DataFrame, destination: str | Path) -> None:
+def save_csv_atomically(df: pd.DataFrame, destination: Union[str, Path]) -> None:
     """Write a CSV to a temporary file and atomically replace the destination.
 
     This prevents readers from observing a partially written CSV if a write is
