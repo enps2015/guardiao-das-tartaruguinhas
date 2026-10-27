@@ -1,133 +1,90 @@
+# Guardião das Tartaruguinhas
 
-# Guardião das Tartaruguinhas - v2.0
+**Protótipo de dashboard para organizar registros de ninhos de quelônios e apoiar o monitoramento comunitário de conservação na Amazônia.**
 
+O projeto foi desenvolvido no contexto do curso **IA Aplicada aos Desafios Socioambientais da Amazônia (I2A2)**. A proposta é demonstrar como registros organizados podem ajudar equipes de campo a acompanhar ninhos, revisar situações de risco e priorizar a atenção — sem substituir a observação e a decisão dos responsáveis pela conservação.
 
-🐢 Guardião das Tartaruguinhas
+## Problema e proposta
 
-**Um sistema de monitoramento comunitário de ninhos de quelônios, desenvolvido como projeto para o curso de IA Aplicada aos Desafios Socioambientais da Amazônia (I2A2).**
+Registros feitos manualmente podem ficar dispersos e dificultar consultas, comparação de situações e acompanhamento ao longo do tempo. O Guardião organiza esses registros em uma interface de análise para tornar informações relevantes mais fáceis de consultar.
 
----
+## Funcionalidades
 
-## 📜 Sobre o Projeto
+- **Central de monitoramento de riscos:** apresenta indicadores e alertas a partir dos registros disponíveis.
+- **Fichas de ninhos:** permite consultar informações organizadas por registro.
+- **Análises visuais:** reúne gráficos e resumos para observar padrões nos dados.
+- **Linha do tempo e filtros:** apoiam a exploração dos registros conforme as funcionalidades presentes na aplicação.
+- **Tratamento explícito de dados incompletos:** o painel diferencia ausência de registros, esquema inválido e classificações de risco desconhecidas, em vez de concluir que a falta de informação significa ausência de risco.
 
-Este projeto nasceu da necessidade de uma comunidade ribeirinha na Amazônia de digitalizar e organizar os dados coletados manualmente sobre ninhos de tartarugas. O objetivo é transformar dados brutos em insights acionáveis para otimizar os esforços de conservação, garantindo que mais filhotes cheguem com segurança ao rio.
+## Capturas de tela
 
+| Central de monitoramento | Fichas de monitoramento |
+|:---:|:---:|
+| ![Central de monitoramento de riscos](assets/screenshots/tela01.png) | ![Fichas individuais](assets/screenshots/tela02.png) |
 
-Bem-vindo à versão 2.0 do **Guardião das Tartaruguinhas**, um dashboard de monitoramento de ninhos de quelônios na Amazônia, reimaginado para oferecer uma experiência de análise de dados mais rica, intuitiva e visualmente impactante.
+| Análises e linha do tempo | Painel de gerenciamento |
+|:---:|:---:|
+| ![Análises e linha do tempo](assets/screenshots/tela03.png) | ![Painel de gerenciamento](assets/screenshots/tela04.png) |
 
-Este projeto transforma dados brutos de conservação em insights acionáveis, utilizando o poder do Streamlit para criar uma ferramenta que não apenas informa, mas também engaja e capacita os voluntários em campo.
+| Filtros interativos | Formulário de registro |
+|:---:|:---:|
+| ![Filtros](assets/screenshots/tela05.png) | ![Formulário de registro](assets/screenshots/tela06.png) |
 
-## ✨ Principais Funcionalidades da v2.0
+## Tecnologias
 
-A evolução do dashboard focou em quatro pilares de aprimoramento cognitivo e visual:
+- **Python:** lógica e processamento dos registros.
+- **Streamlit:** interface interativa.
+- **Pandas:** leitura e manipulação dos dados tabulares.
+- **Plotly:** visualizações.
+- **streamlit-option-menu:** navegação.
+- **pytest:** testes automatizados das funções de dados e persistência.
 
-1.  **Navegação Moderna:** Um menu lateral com ícones substitui a antiga seleção, tornando a navegação mais rápida e intuitiva.
-2.  **Central de Monitoramento de Riscos:** O antigo "Painel de Alerta" foi transformado em um cockpit de ação, com métricas claras e gráficos contextuais que direcionam a atenção para os pontos mais críticos.
-3.  **Fichas de Monitoramento:** O relatório de dados brutos deu lugar a uma galeria de "cards" individuais para cada ninho, facilitando a consulta e a avaliação visual rápida.
-4.  **Storytelling Visual:** Uma linha do tempo interativa na página de análises conta a história da jornada de cada ninho até a eclosão, transformando dados temporais em uma narrativa poderosa.
+## Executar localmente
 
-## 📸 Screenshots da Nova Interface
-
-| Central de Monitoramento de Riscos | Fichas de Monitoramento |
-| :---: | :---: |
-| ![Tela 01](assets/screenshots/tela01.png) | ![Tela 02](assets/screenshots/tela02.png) |
-
-| Análises Avançadas e Linha do Tempo | Painel de Gerenciamento Interativo |
-| :---: | :---: |
-| ![Tela 03](assets/screenshots/tela03.png) | ![Tela 04](assets/screenshots/tela04.png) |
-
-| Filtros Interativos | Formulário de Adição |
-| :---: | :---: |
-| ![Tela 05](assets/screenshots/tela05.png) | ![Tela 06](assets/screenshots/tela06.png) |
-
-## 🚀 Como Executar o Projeto
-
-Siga os passos abaixo para configurar e rodar o dashboard em seu ambiente local.
-
-### 1. Pré-requisitos
-
-- Python 3.8+
-- `pip` e `venv`
-
-### 2. Configuração do Ambiente
-
-É uma boa prática usar um ambiente virtual para isolar as dependências do projeto.
-
-**Crie e ative o ambiente virtual:**
+Requisitos: Python 3.8 ou superior, pip e venv.
 
 ```bash
-# Crie o ambiente
-python -m venv venv
+git clone https://github.com/enps2015/guardiao-das-tartaruguinhas.git
+cd guardiao-das-tartaruguinhas
 
-# Ative no macOS/Linux
-source venv/bin/activate
+python -m venv .venv
+source .venv/bin/activate
+# Windows PowerShell: .venv\\Scripts\\Activate.ps1
 
-# (ou) Ative no Windows
-.\venv\Scripts\activate
-```
-
-### 3. Instale as Dependências
-
-Com o ambiente virtual ativado, instale as bibliotecas necessárias:
-
-```bash
-pip install -r requirements.txt
-```
-
-### 4. Execute o Dashboard
-
-Para iniciar a aplicação web interativa, execute o comando:
-
-```bash
-streamlit run dashboard.py
-```
-
-O Streamlit iniciará um servidor local e abrirá o dashboard no seu navegador padrão.
-
-### Persistência dos registros: limitação importante
-
-O dashboard atual utiliza `data/ninhos.csv` como armazenamento local. A gravação foi tornada atômica para evitar que uma interrupção deixe um CSV parcialmente escrito, mas isso **não transforma o arquivo em armazenamento persistente ou multiusuário**.
-
-No Streamlit Community Cloud, a persistência do filesystem local não é garantida após reinicializações ou novos deploys. Por isso, esta versão deve ser tratada como protótipo demonstrativo; não use o CSV local como fonte oficial de registros de campo. Para operação contínua, a próxima evolução deve integrar um banco ou serviço de armazenamento persistente externo, com credenciais em secrets e política de backup.
-
-### Testes automatizados
-
-Para executar as verificações do estado de risco e da gravação CSV localmente:
-
-```bash
 python -m pip install -r requirements.txt
 python -m pip install pytest
 python -m pytest -q
+streamlit run dashboard.py
 ```
 
-O GitHub Actions executa esses testes automaticamente em pull requests e em alterações relevantes na aplicação, nos dados ou nos próprios testes.
+O Streamlit inicia a aplicação no navegador. Os comandos de ativação do ambiente virtual variam conforme o sistema operacional.
 
-## 🛠️ Desenvolvido com
+## Limitações e uso responsável
 
-*   **Python:** A linguagem por trás de toda a lógica.
-*   **Streamlit:** O framework que dá vida à interface web interativa.
-*   **Pandas:** Para a manipulação e análise dos dados.
-*   **Plotly:** Para a criação dos gráficos ricos e interativos.
-*   **streamlit-option-menu:** Para o menu de navegação moderno.
+**Esta versão deve ser considerada um protótipo demonstrativo, não um sistema de produção para registros oficiais de campo.**
 
-## 🛠️ Tecnologias Utilizadas
+A aplicação utiliza `data/ninhos.csv` como armazenamento local. A gravação atômica reduz o risco de deixar um arquivo parcialmente escrito após uma interrupção, mas não fornece durabilidade garantida na nuvem, backup, controle de acesso ou suporte seguro a gravações simultâneas de vários usuários. Em ambientes como o Streamlit Community Cloud, o filesystem local pode não persistir após reinicializações ou novos deploys.
 
-* **Python 3:** A única linguagem utilizada, sem a necessidade de bibliotecas externas, focando nos fundamentos da programação.
+Antes de uma operação real, será necessário adotar armazenamento persistente externo, controle de acesso, política de backup e um processo de recuperação testado. Os alertas gerados pelo painel devem apoiar — e não substituir — a avaliação dos responsáveis em campo. Não se deve interpretar dados ausentes ou classificações desconhecidas como prova de que um ninho está seguro.
 
----
-_Este projeto representa a ponte entre o conhecimento tradicional e a tecnologia acessível, transformando dados em um escudo para a biodiversidade amazônica._
+## Testes e integração contínua
 
-**Desenvolvido com paixão e a Força dos Dados por:**
+O repositório contém testes automatizados para a classificação do estado de risco e a gravação atômica do CSV. Para executá-los localmente:
+
+```bash
+python -m pytest -q
+```
+
+O workflow do GitHub Actions instala as dependências, verifica a sintaxe e executa a suíte de testes em alterações relevantes. A existência de testes não equivale à validação operacional em campo nem comprova persistência em produção.
+
+## Autor
 
 **Eric Pimentel**
 
-[![LinkedIn Badge](https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/eric-np-santos/)
-[![GitHub Badge](https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white)](https://github.com/enps2015)
-[![Instagram Badge](https://img.shields.io/badge/Instagram-E4405F?style=for-the-badge&logo=instagram&logoColor=white)](https://www.instagram.com/eric.n.pimentel/)
-[![Gmail Badge](https://img.shields.io/badge/Gmail-D14836?style=for-the-badge&logo=gmail&logoColor=white)](mailto:enps2006@gmail.com)
+- [GitHub](https://github.com/enps2015)
+- [LinkedIn](https://www.linkedin.com/in/ericpimentel-dados/)
+- [Instagram](https://www.instagram.com/eric.n.pimentel/)
 
 ---
 
-*✨ Última atualização: 30 de Julho de 2025 ✨*
-
-
+*Última atualização documental: 27 de outubro de 2026.*
