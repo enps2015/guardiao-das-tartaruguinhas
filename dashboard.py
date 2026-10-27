@@ -12,6 +12,7 @@ import plotly.express as px
 from pathlib import Path
 from streamlit_option_menu import option_menu
 from datetime import datetime, timedelta
+from guardiao_data import summarize_risk_data, save_csv_atomically
 
 # ----------------------------------------------------------------------------
 # SEÇÃO 0: CONFIGURAÇÃO DA PÁGINA E CONSTANTES
@@ -54,8 +55,8 @@ def carregar_dados():
         ])
 
 def salvar_dados(df):
-    """Salva o DataFrame atual no arquivo CSV, sobrescrevendo a versão antiga."""
-    df.to_csv(CAMINHO_DADOS, index=False)
+    """Salva o DataFrame atual usando substituição atômica do CSV local."""
+    save_csv_atomically(df, CAMINHO_DADOS)
 
 # ----------------------------------------------------------------------------
 # SEÇÃO 2: PÁGINAS E COMPONENTES VISUAIS DO DASHBOARD
@@ -96,9 +97,40 @@ def pagina_painel_alerta(df):
     st.title("Central de Monitoramento de Riscos")
     st.markdown("Análise de alta prioridade para a proteção dos ninhos. *Os dados aqui são sempre do **dataset completo**.*")
 
-    if df.empty:
-        st.success("✅ Missão Cumprida! Nenhum ninho em situação de alerta no momento.")
+    resumo_risco = summarize_risk_data(df)
+
+    if resumo_risco["state"] == "no_data":
+        st.warning(
+            "Não há registros de ninhos disponíveis para avaliar. "
+            "A ausência de dados não significa ausência de risco. "
+            "Verifique data/ninhos.csv ou registre os dados de monitoramento."
+        )
         return
+
+    if resumo_risco["state"] == "invalid_schema":
+        st.error(
+            "Não é possível avaliar riscos: a base não contém a coluna obrigatória 'risco'. "
+            "Verifique o esquema do CSV antes de interpretar os alertas."
+        )
+        return
+
+    if resumo_risco["critical_records"]:
+        st.error(
+            f"🚨 {resumo_risco['critical_records']} registro(s) estão marcados como risco crítico. "
+            "Priorize a verificação das fichas e das condições observadas em campo."
+        )
+
+    if resumo_risco["unknown_risk_records"]:
+        st.warning(
+            f"{resumo_risco['unknown_risk_records']} registro(s) têm nível de risco ausente "
+            "ou não reconhecido. Não é possível concluir que não há riscos críticos "
+            "enquanto essas classificações não forem verificadas."
+        )
+    elif not resumo_risco["critical_records"]:
+        st.success(
+            f"Nenhum registro está marcado como risco crítico entre os "
+            f"{resumo_risco['total_records']} registros com classificação de risco válida."
+        )
 
     st.markdown("---")
 
@@ -380,7 +412,7 @@ def pagina_gerenciar_ninhos(df):
                         df_atualizado = df.drop(index).reset_index(drop=True)
                         salvar_dados(df_atualizado)
                         st.success(f"Ninho ID {index} deletado.")
-                        st.experimental_rerun()
+                        st.rerun()
 
 # ----------------------------------------------------------------------------
 # SEÇÃO 4: LÓGICA PRINCIPAL E NAVEGAÇÃO
@@ -394,6 +426,12 @@ def main():
     with st.sidebar:
         st.image(str(CAMINHO_LOGO), width=150)
         st.title("Guardião das Tartaruguinhas")
+        st.warning(
+            "Armazenamento em modo protótipo: os registros são gravados em um CSV local. "
+            "No Streamlit Community Cloud, a persistência do disco não é garantida após "
+            "reinicializações ou novos deploys. Não use esta versão como banco oficial "
+            "de campo sem configurar armazenamento persistente externo."
+        )
 
         escolha = option_menu(
             menu_title="Menu Principal",
