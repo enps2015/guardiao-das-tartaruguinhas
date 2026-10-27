@@ -84,6 +84,24 @@ streamlit run dashboard.py
 
 O Streamlit iniciará um servidor local e abrirá o dashboard no seu navegador padrão.
 
+### Persistência dos registros: limitação importante
+
+O dashboard atual utiliza `data/ninhos.csv` como armazenamento local. A gravação foi tornada atômica para evitar que uma interrupção deixe um CSV parcialmente escrito, mas isso **não transforma o arquivo em armazenamento persistente ou multiusuário**.
+
+No Streamlit Community Cloud, a persistência do filesystem local não é garantida após reinicializações ou novos deploys. Por isso, esta versão deve ser tratada como protótipo demonstrativo; não use o CSV local como fonte oficial de registros de campo. Para operação contínua, a próxima evolução deve integrar um banco ou serviço de armazenamento persistente externo, com credenciais em secrets e política de backup.
+
+### Testes automatizados
+
+Para executar as verificações do estado de risco e da gravação CSV localmente:
+
+```bash
+python -m pip install -r requirements.txt
+python -m pip install pytest
+python -m pytest -q
+```
+
+O GitHub Actions executa esses testes automaticamente em pull requests e em alterações relevantes na aplicação, nos dados ou nos próprios testes.
+
 ## 🛠️ Desenvolvido com
 
 *   **Python:** A linguagem por trás de toda a lógica.

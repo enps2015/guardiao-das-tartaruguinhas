@@ -1,0 +1,56 @@
+name: Testes do Guardião das Tartaruguinhas
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "dashboard.py"
+      - "guardiao_data.py"
+      - "tests/**"
+      - "data/**"
+      - "requirements.txt"
+      - ".github/workflows/tests.yml"
+  pull_request:
+    paths:
+      - "dashboard.py"
+      - "guardiao_data.py"
+      - "tests/**"
+      - "data/**"
+      - "requirements.txt"
+      - ".github/workflows/tests.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: guardiao-tests-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  test:
+    name: Testes de estado de risco e persistência CSV
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Configurar Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+          cache: pip
+          cache-dependency-path: requirements.txt
+
+      - name: Instalar dependências
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -r requirements.txt
+          python -m pip install pytest
+
+      - name: Verificar sintaxe Python
+        run: python -m compileall -q dashboard.py guardiao_data.py tests
+
+      - name: Executar testes automatizados
+        run: python -m pytest -q
